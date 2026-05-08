@@ -1,0 +1,10 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path="docker-compose.yml" />
+  </Folder>
+  <Folder Name="/src/">
+    <Project Path="Client/Client.csproj" Id="3da1f782-f8b4-46fe-8aff-f23293318fa5" />
+    <Project Path="OrderSaga.Contracts/OrderSaga.Contracts.csproj" />
+    <Project Path="OrderSaga.Workflows/OrderSaga.Workflows.csproj" Id="35b3f956-384c-4822-9a0e-26d30944c385" />
+  </Folder>
+</Solution>

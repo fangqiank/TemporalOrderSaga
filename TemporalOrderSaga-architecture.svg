@@ -1,0 +1,347 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" font-family="Segoe UI, Arial, sans-serif">
+  <defs>
+    <!-- Gradients -->
+    <linearGradient id="purpleGradient" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#a855f7"/>
+      <stop offset="100%" stop-color="#7c3aed"/>
+    </linearGradient>
+    <linearGradient id="blueGradient" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#3b82f6"/>
+      <stop offset="100%" stop-color="#2563eb"/>
+    </linearGradient>
+    <linearGradient id="orangeGradient" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f97316"/>
+      <stop offset="100%" stop-color="#ea580c"/>
+    </linearGradient>
+    <linearGradient id="greenGradient" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#22c55e"/>
+      <stop offset="100%" stop-color="#16a34a"/>
+    </linearGradient>
+    <linearGradient id="skyGradient" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0ea5e9"/>
+      <stop offset="100%" stop-color="#0284c7"/>
+    </linearGradient>
+    <linearGradient id="tealGradient" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#42b883"/>
+      <stop offset="100%" stop-color="#35495e"/>
+    </linearGradient>
+    <linearGradient id="redGradient" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ef4444"/>
+      <stop offset="100%" stop-color="#dc2626"/>
+    </linearGradient>
+
+    <!-- Arrow markers -->
+    <marker id="arrowPurple" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M 0 1 L 8 5 L 0 9 z" fill="#a855f7"/>
+    </marker>
+    <marker id="arrowBlue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M 0 1 L 8 5 L 0 9 z" fill="#3b82f6"/>
+    </marker>
+    <marker id="arrowOrange" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M 0 1 L 8 5 L 0 9 z" fill="#f97316"/>
+    </marker>
+    <marker id="arrowGreen" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M 0 1 L 8 5 L 0 9 z" fill="#22c55e"/>
+    </marker>
+    <marker id="arrowRed" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M 0 1 L 8 5 L 0 9 z" fill="#ef4444"/>
+    </marker>
+    <marker id="arrowSky" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M 0 1 L 8 5 L 0 9 z" fill="#0ea5e9"/>
+    </marker>
+
+    <!-- Shadow filter -->
+    <filter id="shadow" x="-5%" y="-5%" width="115%" height="115%">
+      <feDropShadow dx="2" dy="3" stdDeviation="4" flood-opacity="0.1"/>
+    </filter>
+  </defs>
+
+  <style>
+    .flow-line-purple { stroke-dasharray: 8, 4; animation: dash-flow 0.5s linear infinite; }
+    .flow-line-blue { stroke-dasharray: 8, 4; animation: dash-flow 0.6s linear infinite; }
+    .flow-line-orange { stroke-dasharray: 8, 4; animation: dash-flow 0.7s linear infinite; }
+    .flow-line-green { stroke-dasharray: 8, 4; animation: dash-flow 0.5s linear infinite; }
+    .flow-line-red { stroke-dasharray: 8, 4; animation: dash-flow 0.4s linear infinite; }
+    .flow-line-sky { stroke-dasharray: 8, 4; animation: dash-flow 0.6s linear infinite; }
+    @keyframes dash-flow { to { stroke-dashoffset: -12; } }
+  </style>
+
+  <!-- Background -->
+  <rect width="1200" height="900" fill="#ffffff"/>
+
+  <!-- Title -->
+  <text x="600" y="38" text-anchor="middle" font-size="22" font-weight="bold" fill="#1e293b">Temporal Order Saga 架构图</text>
+  <text x="600" y="60" text-anchor="middle" font-size="13" fill="#64748b">Temporal.io Saga Pattern for Order Processing | .NET 10 + Temporalio 1.14.0</text>
+  <line x1="100" y1="72" x2="1100" y2="72" stroke="#e2e8f0" stroke-width="1"/>
+
+  <!-- ========== Row 1: Client + Temporal Server + Worker ========== -->
+
+  <!-- Client App Card -->
+  <g transform="translate(40, 90)" filter="url(#shadow)">
+    <rect width="240" height="150" rx="12" fill="#f1f5f9" stroke="#0ea5e9" stroke-width="2"/>
+    <rect width="240" height="35" rx="12" fill="url(#skyGradient)"/>
+    <rect x="0" y="23" width="240" height="12" fill="url(#skyGradient)"/>
+    <text x="120" y="24" text-anchor="middle" font-size="14" font-weight="bold" fill="#fff">Client Console App</text>
+    <text x="15" y="55" font-size="11" fill="#334155">Client / Program.cs</text>
+    <text x="15" y="73" font-size="10" fill="#64748b">TemporalClient.ConnectAsync()</text>
+    <text x="15" y="89" font-size="10" fill="#64748b">StartWorkflowAsync()</text>
+    <text x="15" y="105" font-size="10" fill="#64748b">handle.GetResultAsync()</text>
+    <rect x="15" y="115" width="60" height="20" rx="4" fill="#e0f2fe"/>
+    <text x="45" y="129" text-anchor="middle" font-size="9" fill="#0284c7">.NET 10</text>
+    <rect x="82" y="115" width="60" height="20" rx="4" fill="#e0f2fe"/>
+    <text x="112" y="129" text-anchor="middle" font-size="9" fill="#0284c7">Console</text>
+  </g>
+
+  <!-- Arrow: Client → Temporal Server -->
+  <path d="M 280 165 L 370 165" stroke="#e0f2fe" stroke-width="6" fill="none" stroke-linecap="round"/>
+  <path d="M 280 165 L 370 165" class="flow-line-sky" stroke="#0ea5e9" stroke-width="3" fill="none" marker-end="url(#arrowSky)" stroke-linecap="round"/>
+  <text x="325" y="155" text-anchor="middle" font-size="9" fill="#0284c7">gRPC</text>
+
+  <!-- Temporal Server Card -->
+  <g transform="translate(378, 90)" filter="url(#shadow)">
+    <rect width="260" height="150" rx="12" fill="#eff6ff" stroke="#3b82f6" stroke-width="2"/>
+    <rect width="260" height="35" rx="12" fill="url(#blueGradient)"/>
+    <rect x="0" y="23" width="260" height="12" fill="url(#blueGradient)"/>
+    <text x="130" y="24" text-anchor="middle" font-size="14" font-weight="bold" fill="#fff">Temporal Server</text>
+    <text x="15" y="55" font-size="11" fill="#334155">temporalio/auto-setup:1.25.2</text>
+    <text x="15" y="73" font-size="10" fill="#64748b">gRPC :7233 (Worker)</text>
+    <text x="15" y="89" font-size="10" fill="#64748b">HTTP :8080 (Web UI)</text>
+    <text x="15" y="105" font-size="10" fill="#64748b">Task Queue: order-saga-task-queue</text>
+    <rect x="15" y="115" width="75" height="20" rx="4" fill="#dbeafe"/>
+    <text x="52" y="129" text-anchor="middle" font-size="9" fill="#2563eb">PostgreSQL</text>
+    <rect x="97" y="115" width="65" height="20" rx="4" fill="#dbeafe"/>
+    <text x="129" y="129" text-anchor="middle" font-size="9" fill="#2563eb">default</text>
+  </g>
+
+  <!-- Arrow: Temporal Server → Worker -->
+  <path d="M 638 165 L 728 165" stroke="#dbeafe" stroke-width="6" fill="none" stroke-linecap="round"/>
+  <path d="M 638 165 L 728 165" class="flow-line-blue" stroke="#3b82f6" stroke-width="3" fill="none" marker-end="url(#arrowBlue)" stroke-linecap="round"/>
+  <text x="683" y="155" text-anchor="middle" font-size="9" fill="#2563eb">Poll / Dispatch</text>
+
+  <!-- Worker Card -->
+  <g transform="translate(736, 90)" filter="url(#shadow)">
+    <rect width="420" height="150" rx="12" fill="#faf5ff" stroke="#a855f7" stroke-width="2"/>
+    <rect width="420" height="35" rx="12" fill="url(#purpleGradient)"/>
+    <rect x="0" y="23" width="420" height="12" fill="url(#purpleGradient)"/>
+    <text x="210" y="24" text-anchor="middle" font-size="14" font-weight="bold" fill="#fff">Worker Host (ASP.NET Core)</text>
+    <text x="15" y="55" font-size="11" fill="#334155">OrderSaga.Workflows / Program.cs</text>
+
+    <!-- Workflow sub-card -->
+    <rect x="15" y="65" width="185" height="70" rx="8" fill="#f5f3ff" stroke="#c084fc" stroke-width="1"/>
+    <text x="107" y="82" text-anchor="middle" font-size="10" font-weight="bold" fill="#7c3aed">OrderSagaWorkflow</text>
+    <text x="22" y="96" font-size="9" fill="#64748b">[Workflow] [WorkflowRun]</text>
+    <text x="22" y="109" font-size="9" fill="#64748b">Saga: Reserve → Pay → Email</text>
+    <text x="22" y="122" font-size="9" fill="#64748b">Compensation Stack (LIFO)</text>
+
+    <!-- Activities sub-card -->
+    <rect x="215" y="65" width="190" height="70" rx="8" fill="#f5f3ff" stroke="#c084fc" stroke-width="1"/>
+    <text x="310" y="82" text-anchor="middle" font-size="10" font-weight="bold" fill="#7c3aed">OrderSagaActivities</text>
+    <text x="222" y="96" font-size="9" fill="#64748b">ReserveInventory</text>
+    <text x="222" y="109" font-size="9" fill="#64748b">AuthorizePayment</text>
+    <text x="222" y="122" font-size="9" fill="#64748b">UpdateOrderStatus</text>
+  </g>
+
+  <!-- ========== Row 2: Contracts + PostgreSQL ========== -->
+
+  <!-- Contracts Card -->
+  <g transform="translate(40, 265)" filter="url(#shadow)">
+    <rect width="240" height="80" rx="12" fill="#f0fdf4" stroke="#22c55e" stroke-width="2"/>
+    <rect width="240" height="35" rx="12" fill="url(#greenGradient)"/>
+    <rect x="0" y="23" width="240" height="12" fill="url(#greenGradient)"/>
+    <text x="120" y="24" text-anchor="middle" font-size="14" font-weight="bold" fill="#fff">OrderSaga.Contracts</text>
+    <text x="15" y="55" font-size="10" fill="#64748b">OrderInput / OrderResult / OrderStatus</text>
+    <text x="15" y="70" font-size="10" fill="#64748b">ReserveInventoryInput / PaymentInput</text>
+  </g>
+
+  <!-- PostgreSQL Card -->
+  <g transform="translate(378, 265)" filter="url(#shadow)">
+    <rect width="260" height="80" rx="12" fill="#eff6ff" stroke="#3b82f6" stroke-width="2"/>
+    <rect width="260" height="35" rx="12" fill="url(#blueGradient)"/>
+    <rect x="0" y="23" width="260" height="12" fill="url(#blueGradient)"/>
+    <text x="130" y="24" text-anchor="middle" font-size="14" font-weight="bold" fill="#fff">PostgreSQL 16</text>
+    <text x="15" y="55" font-size="10" fill="#64748b">Host: postgresql:5432</text>
+    <text x="15" y="70" font-size="10" fill="#64748b">DB: temporal | User: temporal</text>
+  </g>
+
+  <!-- Arrow: Contracts → Client -->
+  <path d="M 160 265 L 160 240" stroke="#dcfce7" stroke-width="4" fill="none" stroke-linecap="round"/>
+  <path d="M 160 265 L 160 240" class="flow-line-green" stroke="#22c55e" stroke-width="2" fill="none" stroke-linecap="round"/>
+
+  <!-- Arrow: Contracts → Worker -->
+  <path d="M 280 305 L 370 305 L 370 200 L 728 200" stroke="#dcfce7" stroke-width="4" fill="none" stroke-linecap="round"/>
+  <path d="M 280 305 L 370 305 L 370 200 L 728 200" class="flow-line-green" stroke="#22c55e" stroke-width="2" fill="none" stroke-linecap="round"/>
+
+  <!-- Arrow: PostgreSQL ← Temporal -->
+  <path d="M 508 265 L 508 240" stroke="#dbeafe" stroke-width="4" fill="none" stroke-linecap="round"/>
+  <path d="M 508 265 L 508 240" class="flow-line-blue" stroke="#3b82f6" stroke-width="2" fill="none" stroke-linecap="round"/>
+
+  <!-- ========== Row 3: Saga Flow ========== -->
+
+  <!-- Saga Flow Title -->
+  <text x="600" y="385" text-anchor="middle" font-size="16" font-weight="bold" fill="#1e293b">Saga 补偿事务流程 (Compensating Transaction Pattern)</text>
+  <line x1="100" y1="395" x2="1100" y2="395" stroke="#e2e8f0" stroke-width="1"/>
+
+  <!-- Step 1: Reserve Inventory -->
+  <g transform="translate(65, 420)" filter="url(#shadow)">
+    <rect width="200" height="110" rx="12" fill="#fff7ed" stroke="#f97316" stroke-width="2"/>
+    <rect width="200" height="32" rx="12" fill="url(#orangeGradient)"/>
+    <rect x="0" y="20" width="200" height="12" fill="url(#orangeGradient)"/>
+    <text x="100" y="23" text-anchor="middle" font-size="13" font-weight="bold" fill="#fff">1. Reserve Inventory</text>
+    <text x="100" y="50" text-anchor="middle" font-size="10" fill="#64748b">ReserveInventoryAsync</text>
+    <text x="100" y="65" text-anchor="middle" font-size="9" fill="#94a3b8">InventoryReserved</text>
+    <text x="100" y="80" text-anchor="middle" font-size="10" fill="#22c55e">Success → Push Compensation</text>
+    <text x="100" y="97" text-anchor="middle" font-size="9" fill="#ea580c">Retry: 3x, Backoff: 2x</text>
+  </g>
+
+  <!-- Arrow: Step 1 → Step 2 -->
+  <path d="M 265 475 L 325 475" stroke="#ffedd5" stroke-width="6" fill="none" stroke-linecap="round"/>
+  <path d="M 265 475 L 325 475" class="flow-line-orange" stroke="#f97316" stroke-width="3" fill="none" marker-end="url(#arrowOrange)" stroke-linecap="round"/>
+
+  <!-- Step 2: Authorize Payment -->
+  <g transform="translate(333, 420)" filter="url(#shadow)">
+    <rect width="200" height="110" rx="12" fill="#fff7ed" stroke="#f97316" stroke-width="2"/>
+    <rect width="200" height="32" rx="12" fill="url(#orangeGradient)"/>
+    <rect x="0" y="20" width="200" height="12" fill="url(#orangeGradient)"/>
+    <text x="100" y="23" text-anchor="middle" font-size="13" font-weight="bold" fill="#fff">2. Authorize Payment</text>
+    <text x="100" y="50" text-anchor="middle" font-size="10" fill="#64748b">AuthorizePaymentAsync</text>
+    <text x="100" y="65" text-anchor="middle" font-size="9" fill="#94a3b8">PaymentAuthorized</text>
+    <text x="100" y="80" text-anchor="middle" font-size="10" fill="#22c55e">Success → Push Compensation</text>
+    <text x="100" y="97" text-anchor="middle" font-size="9" fill="#ea580c">Retry: 3x, Backoff: 2x</text>
+  </g>
+
+  <!-- Arrow: Step 2 → Step 3 -->
+  <path d="M 533 475 L 593 475" stroke="#ffedd5" stroke-width="6" fill="none" stroke-linecap="round"/>
+  <path d="M 533 475 L 593 475" class="flow-line-orange" stroke="#f97316" stroke-width="3" fill="none" marker-end="url(#arrowOrange)" stroke-linecap="round"/>
+
+  <!-- Step 3: Send Email -->
+  <g transform="translate(601, 420)" filter="url(#shadow)">
+    <rect width="200" height="110" rx="12" fill="#fff7ed" stroke="#f97316" stroke-width="2"/>
+    <rect width="200" height="32" rx="12" fill="url(#orangeGradient)"/>
+    <rect x="0" y="20" width="200" height="12" fill="url(#orangeGradient)"/>
+    <text x="100" y="23" text-anchor="middle" font-size="13" font-weight="bold" fill="#fff">3. Send Confirmation</text>
+    <text x="100" y="50" text-anchor="middle" font-size="10" fill="#64748b">SendConfirmationEmailAsync</text>
+    <text x="100" y="65" text-anchor="middle" font-size="9" fill="#94a3b8">No Compensation Needed</text>
+    <text x="100" y="80" text-anchor="middle" font-size="10" fill="#22c55e">Fire and Continue</text>
+    <text x="100" y="97" text-anchor="middle" font-size="9" fill="#ea580c">Retry: 5x</text>
+  </g>
+
+  <!-- Arrow: Step 3 → Step 4 -->
+  <path d="M 801 475 L 861 475" stroke="#ffedd5" stroke-width="6" fill="none" stroke-linecap="round"/>
+  <path d="M 801 475 L 861 475" class="flow-line-green" stroke="#22c55e" stroke-width="3" fill="none" marker-end="url(#arrowGreen)" stroke-linecap="round"/>
+
+  <!-- Step 4: Complete -->
+  <g transform="translate(869, 420)" filter="url(#shadow)">
+    <rect width="200" height="110" rx="12" fill="#f0fdf4" stroke="#22c55e" stroke-width="2"/>
+    <rect width="200" height="32" rx="12" fill="url(#greenGradient)"/>
+    <rect x="0" y="20" width="200" height="12" fill="url(#greenGradient)"/>
+    <text x="100" y="23" text-anchor="middle" font-size="13" font-weight="bold" fill="#fff">4. Complete Order</text>
+    <text x="100" y="50" text-anchor="middle" font-size="10" fill="#64748b">UpdateOrderStatusAsync</text>
+    <text x="100" y="65" text-anchor="middle" font-size="9" fill="#94a3b8">OrderStatus.Completed</text>
+    <text x="100" y="82" text-anchor="middle" font-size="12" font-weight="bold" fill="#16a34a">COMPLETED</text>
+  </g>
+
+  <!-- ========== Compensation Flow (bottom reverse arrows) ========== -->
+
+  <!-- Compensation label -->
+  <text x="600" y="560" text-anchor="middle" font-size="12" font-weight="bold" fill="#ef4444">Failure → Compensation (LIFO Reverse Order)</text>
+
+  <!-- Compensation reverse arrow -->
+  <path d="M 969 545 L 969 570 L 165 570 L 165 545" stroke="#fee2e2" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 969 545 L 969 570 L 165 570 L 165 545" class="flow-line-red" stroke="#ef4444" stroke-width="3" fill="none" marker-end="url(#arrowRed)" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- Compensation step labels -->
+  <g transform="translate(395, 565)">
+    <rect x="0" y="0" width="130" height="22" rx="6" fill="#fef2f2" stroke="#fca5a5" stroke-width="1"/>
+    <text x="65" y="15" text-anchor="middle" font-size="9" font-weight="bold" fill="#dc2626">VoidPaymentAsync</text>
+  </g>
+  <g transform="translate(540, 565)">
+    <rect x="0" y="0" width="150" height="22" rx="6" fill="#fef2f2" stroke="#fca5a5" stroke-width="1"/>
+    <text x="75" y="15" text-anchor="middle" font-size="9" font-weight="bold" fill="#dc2626">ReleaseInventoryAsync</text>
+  </g>
+
+  <!-- ========== Data Models ========== -->
+
+  <!-- Data Model Card -->
+  <g transform="translate(65, 610)" filter="url(#shadow)">
+    <rect width="320" height="140" rx="12" fill="#f0fdf4" stroke="#22c55e" stroke-width="2"/>
+    <rect width="320" height="32" rx="12" fill="url(#greenGradient)"/>
+    <rect x="0" y="20" width="320" height="12" fill="url(#greenGradient)"/>
+    <text x="160" y="23" text-anchor="middle" font-size="13" font-weight="bold" fill="#fff">Contracts (OrderSaga.Contracts)</text>
+
+    <text x="15" y="50" font-size="10" fill="#334155" font-weight="bold">Records:</text>
+    <text x="15" y="65" font-size="9" fill="#64748b">OrderInput(OrderId, CustomerId, Items, TotalAmount)</text>
+    <text x="15" y="78" font-size="9" fill="#64748b">OrderResult(OrderId, Status, FailureReason?)</text>
+    <text x="15" y="91" font-size="9" fill="#64748b">ReserveInventoryResult(ReservationId, Success, Reason?)</text>
+    <text x="15" y="104" font-size="9" fill="#64748b">PaymentResult(PaymentId, Success, Reason?)</text>
+    <text x="15" y="120" font-size="10" fill="#334155" font-weight="bold">Enum:</text>
+    <text x="60" y="120" font-size="9" fill="#64748b">OrderStatus: Pending → InventoryReserved → PaymentAuthorized → Completed / Failed</text>
+  </g>
+
+  <!-- Workflow Interface Card -->
+  <g transform="translate(420, 610)" filter="url(#shadow)">
+    <rect width="300" height="140" rx="12" fill="#faf5ff" stroke="#a855f7" stroke-width="2"/>
+    <rect width="300" height="32" rx="12" fill="url(#purpleGradient)"/>
+    <rect x="0" y="20" width="300" height="12" fill="url(#purpleGradient)"/>
+    <text x="150" y="23" text-anchor="middle" font-size="13" font-weight="bold" fill="#fff">IOrderSagaWorkflow</text>
+
+    <text x="15" y="50" font-size="10" fill="#334155" font-weight="bold">[WorkflowRun]</text>
+    <text x="100" y="50" font-size="9" fill="#64748b">ExecuteAsync(OrderInput) → Task&lt;OrderResult&gt;</text>
+    <text x="15" y="70" font-size="10" fill="#334155" font-weight="bold">[WorkflowSignal]</text>
+    <text x="120" y="70" font-size="9" fill="#64748b">CustomerCancelledAsync(string reason)</text>
+    <text x="15" y="90" font-size="10" fill="#334155" font-weight="bold">[WorkflowQuery]</text>
+    <text x="115" y="90" font-size="9" fill="#64748b">GetCurrentStatus() → OrderStatus</text>
+
+    <text x="15" y="115" font-size="10" fill="#334155" font-weight="bold">State:</text>
+    <text x="15" y="130" font-size="9" fill="#64748b">Stack&lt;Func&lt;Task&gt;&gt; _compensations (LIFO)</text>
+  </g>
+
+  <!-- Infrastructure Card -->
+  <g transform="translate(755, 610)" filter="url(#shadow)">
+    <rect width="320" height="140" rx="12" fill="#eff6ff" stroke="#3b82f6" stroke-width="2"/>
+    <rect width="320" height="32" rx="12" fill="url(#blueGradient)"/>
+    <rect x="0" y="20" width="320" height="12" fill="url(#blueGradient)"/>
+    <text x="160" y="23" text-anchor="middle" font-size="13" font-weight="bold" fill="#fff">Infrastructure (docker-compose)</text>
+
+    <text x="15" y="52" font-size="10" fill="#334155" font-weight="bold">Services:</text>
+    <text x="15" y="68" font-size="9" fill="#64748b">postgresql — postgres:16-alpine :5432</text>
+    <text x="15" y="83" font-size="9" fill="#64748b">temporal — temporalio/auto-setup:1.25.2 :7233</text>
+    <text x="15" y="98" font-size="9" fill="#64748b">temporal-ui — temporalio/ui:2.49.1 :8080</text>
+    <text x="15" y="118" font-size="10" fill="#334155" font-weight="bold">Network:</text>
+    <text x="80" y="118" font-size="9" fill="#64748b">default bridge | Volume: pgdata</text>
+    <text x="15" y="133" font-size="10" fill="#334155" font-weight="bold">UI:</text>
+    <text x="40" y="133" font-size="9" fill="#64748b">http://localhost:8080</text>
+  </g>
+
+  <!-- ========== Legend ========== -->
+  <g transform="translate(65, 775)">
+    <rect width="1010" height="55" rx="8" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"/>
+    <text x="15" y="20" font-size="11" font-weight="bold" fill="#334155">Legend:</text>
+
+    <rect x="80" y="8" width="12" height="12" rx="3" fill="url(#skyGradient)"/>
+    <text x="97" y="18" font-size="10" fill="#64748b">Client</text>
+
+    <rect x="150" y="8" width="12" height="12" rx="3" fill="url(#blueGradient)"/>
+    <text x="167" y="18" font-size="10" fill="#64748b">Server / DB</text>
+
+    <rect x="250" y="8" width="12" height="12" rx="3" fill="url(#purpleGradient)"/>
+    <text x="267" y="18" font-size="10" fill="#64748b">Worker / Workflow</text>
+
+    <rect x="385" y="8" width="12" height="12" rx="3" fill="url(#orangeGradient)"/>
+    <text x="402" y="18" font-size="10" fill="#64748b">Saga Steps</text>
+
+    <rect x="490" y="8" width="12" height="12" rx="3" fill="url(#greenGradient)"/>
+    <text x="507" y="18" font-size="10" fill="#64748b">Success / Complete</text>
+
+    <rect x="620" y="8" width="12" height="12" rx="3" fill="url(#redGradient)"/>
+    <text x="637" y="18" font-size="10" fill="#64748b">Compensation (Failure)</text>
+
+    <line x1="770" y1="14" x2="810" y2="14" stroke="#94a3b8" stroke-width="2" stroke-dasharray="8,4"/>
+    <text x="818" y="18" font-size="10" fill="#64748b">Animated Data Flow</text>
+
+    <text x="15" y="42" font-size="9" fill="#94a3b8">Solution: TemporalOrderSaga.slnx | Projects: OrderSaga.Contracts, OrderSaga.Workflows, Client</text>
+  </g>
+
+  <!-- ========== Decorative flow dots ========== -->
+  <circle cx="290" y="165" r="3" fill="#0ea5e9" opacity="0.3"/>
+  <circle cx="650" y="165" r="3" fill="#3b82f6" opacity="0.3"/>
+</svg>
