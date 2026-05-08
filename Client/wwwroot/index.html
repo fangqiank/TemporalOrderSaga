@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechShop - Saga Pattern Demo</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <header>
+        <div class="header-inner">
+            <h1 class="logo">Tech<span>Shop</span></h1>
+            <nav>
+                <a href="#" class="nav-link active" onclick="showSection('products')">商品</a>
+                <button class="cart-btn" onclick="toggleCart()">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg>
+                    <span class="cart-badge" id="cartBadge">0</span>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <main id="mainContent">
+        <!-- 商品列表 -->
+        <section id="productsSection">
+            <div class="section-header">
+                <h2>全部商品</h2>
+                <div class="filter-bar">
+                    <button class="filter-btn active" onclick="filterCategory('all')">全部</button>
+                    <button class="filter-btn" onclick="filterCategory('键盘')">键盘</button>
+                    <button class="filter-btn" onclick="filterCategory('鼠标')">鼠标</button>
+                    <button class="filter-btn" onclick="filterCategory('显示器')">显示器</button>
+                    <button class="filter-btn" onclick="filterCategory('音频')">音频</button>
+                    <button class="filter-btn" onclick="filterCategory('配件')">配件</button>
+                </div>
+            </div>
+            <div class="product-grid" id="productGrid"></div>
+        </section>
+
+        <!-- 订单状态 -->
+        <section id="orderSection" class="hidden">
+            <div class="order-card">
+                <h2>订单追踪</h2>
+                <p class="order-id" id="orderIdText"></p>
+                <div class="status-steps" id="statusSteps">
+                    <div class="step" data-status="Pending">
+                        <div class="step-icon">&#9201;</div>
+                        <div class="step-label">等待处理</div>
+                    </div>
+                    <div class="step" data-status="InventoryReserved">
+                        <div class="step-icon">&#128230;</div>
+                        <div class="step-label">库存预留</div>
+                    </div>
+                    <div class="step" data-status="PaymentAuthorized">
+                        <div class="step-icon">&#128179;</div>
+                        <div class="step-label">支付授权</div>
+                    </div>
+                    <div class="step" data-status="Completed" id="finalStep">
+                        <div class="step-icon" id="finalStepIcon">&#9989;</div>
+                        <div class="step-label" id="finalStepLabel">订单完成</div>
+                    </div>
+                </div>
+                <div id="orderResult" class="hidden">
+                    <div id="resultSuccess" class="result-card result-success hidden">
+                        <div class="result-icon">&#9989;</div>
+                        <div class="result-title">订单完成</div>
+                        <div class="result-desc">库存已预留 · 支付已授权 · 确认邮件已发送</div>
+                    </div>
+                    <div id="resultFailed" class="result-card result-failed hidden">
+                        <div class="result-icon">&#10060;</div>
+                        <div class="result-title">订单失败</div>
+                        <div class="result-desc" id="failReason"></div>
+                        <div class="compensation-section">
+                            <div class="compensation-header">&#128260; 正在执行补偿回滚...</div>
+                            <div id="compensationLog" class="compensation-log"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="order-actions">
+                    <button class="btn btn-secondary" onclick="showSection('products')">继续购物</button>
+                    <button class="btn btn-primary" id="retryBtn" onclick="retryOrder()" style="display:none">重新下单</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 购物车侧边栏 -->
+    <div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
+    <aside class="cart-panel" id="cartPanel">
+        <div class="cart-header">
+            <h3>购物车</h3>
+            <button class="close-btn" onclick="toggleCart()">&times;</button>
+        </div>
+        <div class="cart-items" id="cartItems">
+            <div class="cart-empty" id="cartEmpty">购物车是空的</div>
+        </div>
+        <div class="cart-footer" id="cartFooter">
+            <div class="cart-total">
+                <span>合计</span>
+                <span id="cartTotal">¥0.00</span>
+            </div>
+            <button class="btn btn-primary btn-block" id="checkoutBtn" onclick="placeOrder()">立即下单</button>
+        </div>
+    </aside>
+
+    <!-- Toast 通知 -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script src="/js/app.js"></script>
+</body>
+</html>

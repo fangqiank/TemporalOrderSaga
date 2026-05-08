@@ -1,42 +1,30 @@
-﻿using OrderSaga.Contracts;
-using OrderSaga.Workflows;
+using Client.Data;
+using Microsoft.EntityFrameworkCore;
 using Temporalio.Client;
 
-var client = await TemporalClient.ConnectAsync(new()
-{
-    TargetHost = "localhost:7233",
-    Namespace = "default"
-});
+var builder = WebApplication.CreateBuilder(args);
 
-var input = new OrderInput(
-    OrderId: Guid.NewGuid(),
-    CustomerId: Guid.NewGuid(),
-    Items: new List<OrderItemInput>
+builder.Services.AddControllers();
+builder.Services.AddDbContext<AppDbContext>(o =>
+    o.UseSqlite("Data Source=shop.db"));
+
+builder.Services.AddSingleton<TemporalClient>(sp =>
+    TemporalClient.ConnectAsync(new()
     {
-        new(Guid.NewGuid(), "机械键盘", 1, 399),
-        new(Guid.NewGuid(), "鼠标垫", 2, 29.9m)
-    },
-    TotalAmount: 458.8m
-);
+        TargetHost = builder.Configuration["Temporal:Host"] ?? "localhost:7233",
+        Namespace = builder.Configuration["Temporal:Namespace"] ?? "default"
+    }).GetAwaiter().GetResult());
 
-// 启动工作流
-var handle = await client.StartWorkflowAsync<OrderSagaWorkflow, OrderResult>(
-    wf => wf.ExecuteAsync(input),
-    new WorkflowOptions
-    {
-        Id = $"order-{input.OrderId}",
-        TaskQueue = "order-saga-task-queue"
-    });
+var app = builder.Build();
 
-Console.WriteLine($"✅ 工作流已启动: {handle.Id}");
-
-try
+using (var scope = app.Services.CreateScope())
 {
-    var result = await handle.GetResultAsync();
-    Console.WriteLine($"📊 结果: {result.Status}");
-}
-catch (Exception ex)
-{
-    Console.WriteLine($"❌ 工作流失败: {ex.Message}");
+    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    db.Database.EnsureCreated();
 }
 
+app.UseStaticFiles();
+app.MapControllers();
+app.MapFallbackToFile("index.html");
+
+app.Run();

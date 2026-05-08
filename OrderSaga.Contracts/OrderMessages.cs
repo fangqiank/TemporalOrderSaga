@@ -20,6 +20,11 @@
     public record PaymentInput(Guid OrderId, Guid CustomerId, decimal Amount);
     public record PaymentResult(Guid PaymentId, bool Success, string? Reason = null);
 
+    // ============ API 请求 DTO ============
+    public record CreateOrderRequest(Guid? CustomerId, List<CreateOrderItem> Items);
+
+    public record CreateOrderItem(Guid ProductId, int Quantity);
+
     // ============ 订单状态枚举 ============
     public enum OrderStatus
     {
