@@ -1,4 +1,5 @@
 using Client.Data;
+using Client.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using OrderSaga.Contracts;
@@ -16,6 +17,13 @@ public class OrdersController(AppDbContext db, TemporalClient temporalClient) : 
     {
         if (request.Items.Count == 0)
             return BadRequest(new { error = "购物车不能为空" });
+
+        if (request.CustomerId is null)
+            return BadRequest(new { error = "请选择用户" });
+
+        var customer = await db.Customers.FindAsync(request.CustomerId.Value);
+        if (customer is null)
+            return BadRequest(new { error = "用户不存在" });
 
         var productIds = request.Items.Select(i => i.ProductId).ToList();
         var products = await db.Products
@@ -38,8 +46,7 @@ public class OrdersController(AppDbContext db, TemporalClient temporalClient) : 
         }
 
         var orderId = Guid.NewGuid();
-        var customerId = request.CustomerId ?? Guid.NewGuid();
-        var input = new OrderInput(orderId, customerId, orderItems, totalAmount);
+        var input = new OrderInput(orderId, customer.Id, orderItems, totalAmount, customer.Balance);
 
         var handle = await temporalClient.StartWorkflowAsync<OrderSagaWorkflow, OrderResult>(
             wf => wf.ExecuteAsync(input),

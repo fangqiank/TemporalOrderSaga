@@ -5,7 +5,8 @@
         Guid OrderId,
         Guid CustomerId,
         List<OrderItemInput> Items,
-        decimal TotalAmount
+        decimal TotalAmount,
+        decimal CustomerBalance
     );
 
     public record OrderItemInput(Guid ProductId, string ProductName, int Quantity, decimal UnitPrice);
@@ -17,7 +18,7 @@
     public record InventoryItem(Guid ProductId, int Quantity);
     public record ReserveInventoryResult(Guid ReservationId, bool Success, string? Reason = null);
 
-    public record PaymentInput(Guid OrderId, Guid CustomerId, decimal Amount);
+    public record PaymentInput(Guid OrderId, Guid CustomerId, decimal Amount, decimal CustomerBalance);
     public record PaymentResult(Guid PaymentId, bool Success, string? Reason = null);
 
     // ============ API 请求 DTO ============

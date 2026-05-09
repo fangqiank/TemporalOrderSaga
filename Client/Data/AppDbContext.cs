@@ -6,15 +6,24 @@ namespace Client.Data;
 public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(options)
 {
     public DbSet<Product> Products => Set<Product>();
+    public DbSet<Customer> Customers => Set<Customer>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Product>().HasData(SeedData.Products);
+        modelBuilder.Entity<Customer>().HasData(SeedData.Customers);
     }
 }
 
 file static class SeedData
 {
+    public static Customer[] Customers =>
+    [
+        new() { Id = Guid.Parse("20000000-0000-0000-0000-000000000001"), Name = "张三 (土豪)", Balance = 10000 },
+        new() { Id = Guid.Parse("20000000-0000-0000-0000-000000000002"), Name = "李四 (小康)", Balance = 1500 },
+        new() { Id = Guid.Parse("20000000-0000-0000-0000-000000000003"), Name = "王五 (吃土)", Balance = 0 },
+    ];
+
     public static Product[] Products =>
     [
         new() { Id = Guid.Parse("10000000-0000-0000-0000-000000000001"), Name = "机械键盘 Pro", Description = "Cherry MX 轴体，RGB 背光，全键无冲", Price = 599, ImageUrl = "/img/keyboard.svg", Stock = 50, Category = "键盘" },

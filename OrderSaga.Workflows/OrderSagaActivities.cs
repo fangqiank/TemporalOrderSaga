@@ -41,15 +41,15 @@ namespace OrderSaga.Workflows
         {
             await Task.Delay(300);
             var paymentId = Guid.NewGuid();
-            Console.WriteLine($"  💳 支付授权: OrderId={input.OrderId}, Amount={input.Amount:C}, PaymentId={paymentId}");
+            Console.WriteLine($"  💳 支付授权: OrderId={input.OrderId}, Amount={input.Amount:C}, Balance={input.CustomerBalance:C}");
 
-            // 模拟 20% 概率失败
-            if (Random.Shared.Next(10) < 2)
+            if (input.Amount > input.CustomerBalance)
             {
-                Console.WriteLine($"  ❌ 支付失败: OrderId={input.OrderId}");
-                return new PaymentResult(paymentId, false, "余额不足");
+                Console.WriteLine($"  ❌ 余额不足: OrderId={input.OrderId}, Need={input.Amount:C}, Have={input.CustomerBalance:C}");
+                return new PaymentResult(paymentId, false, $"余额不足 (余额: ¥{input.CustomerBalance:F2}, 需要: ¥{input.Amount:F2})");
             }
 
+            Console.WriteLine($"  ✅ 支付成功: OrderId={input.OrderId}, PaymentId={paymentId}");
             return new PaymentResult(paymentId, true);
         }
 

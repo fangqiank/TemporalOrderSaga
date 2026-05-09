@@ -10,7 +10,7 @@
 
 - **.NET 10** + Temporalio SDK 1.14.0
 - **ASP.NET Core** WebAPI + 静态前端
-- **EF Core** + SQLite（商品数据）
+- **EF Core** + SQLite（商品 + 用户数据）
 - **Temporal Server** 1.25.2 (docker-compose)
 - **PostgreSQL 16** (Temporal 持久化存储)
 
@@ -28,23 +28,35 @@
 Client/
 ├── Controllers/
 │   ├── ProductsController.cs    # GET /api/products
-│   └── OrdersController.cs      # POST /api/orders, GET /api/orders/{id}
+│   ├── OrdersController.cs      # POST /api/orders, GET /api/orders/{id}
+│   └── CustomersController.cs   # GET /api/customers
 ├── Data/
 │   └── AppDbContext.cs           # EF Core + SQLite + 种子数据
 ├── Models/
-│   └── Product.cs                # 商品实体
+│   ├── Product.cs                # 商品实体
+│   └── Customer.cs               # 用户实体（含余额）
 └── wwwroot/
     ├── index.html                # SPA 单页应用
     ├── css/style.css             # 深色主题样式
     └── js/app.js                 # 购物车 + 下单 + 订单追踪
 ```
 
+## 用户系统
+
+前端顶部提供用户选择器，每个用户有不同余额，支付时真实检查余额是否足够。
+
+| 用户 | 余额 | 说明 |
+|------|------|------|
+| 张三 (土豪) | ¥10,000 | 随便买 |
+| 李四 (小康) | ¥1,500 | 买小件没问题，大件会余额不足 |
+| 王五 (吃土) | ¥0 | 任何订单都会支付失败 → 触发补偿 |
+
 ## Saga 流程
 
 ```
 1. ReserveInventory  ─── 成功则注册补偿: ReleaseInventory
        │
-2. AuthorizePayment  ─── 成功则注册补偿: VoidPayment
+2. AuthorizePayment  ─── 余额检查，成功则注册补偿: VoidPayment
        │
 3. SendConfirmationEmail
        │
@@ -52,6 +64,14 @@ Client/
 ```
 
 任一步骤失败，按 LIFO 顺序执行已注册的补偿操作（VoidPayment → ReleaseInventory）。
+
+### 失败场景与补偿
+
+| 失败场景 | 触发补偿 |
+|---------|---------|
+| 库存预留失败 (10% 随机) | 无（尚未执行任何操作） |
+| 支付失败（余额不足） | 释放库存 |
+| 确认邮件失败 | 取消支付 + 释放库存 |
 
 ### 订单状态追踪
 
@@ -84,9 +104,12 @@ dotnet run --project Client
 
 ## 功能
 
+- 用户选择器（3 个用户，不同余额）
+- 余额实时显示 + 购物车余额不足警告
 - 商品浏览（5 个分类，10 款商品）
 - 购物车管理（添加、调整数量、localStorage 持久化）
 - 一键下单（启动 Temporal Saga 工作流）
+- 支付余额检查（替代随机失败，真实检查用户余额）
 - 订单状态实时追踪（轮询 + 步骤指示器）
 - 成功/失败结果区分展示
 - 失败补偿日志可视化

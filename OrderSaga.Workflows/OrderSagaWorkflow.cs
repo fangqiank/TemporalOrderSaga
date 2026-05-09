@@ -53,7 +53,7 @@ public class OrderSagaWorkflow : IOrderSagaWorkflow
             Console.WriteLine($"💳 步骤 2/3: 支付授权");
             var paymentResult = await Workflow.ExecuteActivityAsync(
                 (OrderSagaActivities a) => a.AuthorizePaymentAsync(
-                    new PaymentInput(input.OrderId, input.CustomerId, input.TotalAmount)),
+                    new PaymentInput(input.OrderId, input.CustomerId, input.TotalAmount, input.CustomerBalance)),
                 new ActivityOptions
                 {
                     StartToCloseTimeout = TimeSpan.FromSeconds(10),

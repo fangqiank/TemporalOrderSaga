@@ -1,5 +1,7 @@
 const API = '/api';
 let products = [];
+let customers = [];
+let selectedCustomerId = localStorage.getItem('customerId') || '';
 let cart = JSON.parse(localStorage.getItem('cart') || '[]');
 
 const productEmojis = {
@@ -9,9 +11,42 @@ const productEmojis = {
 
 // ---- Init ----
 document.addEventListener('DOMContentLoaded', () => {
+    fetchCustomers();
     fetchProducts();
     renderCart();
 });
+
+// ---- Customer ----
+async function fetchCustomers() {
+    const res = await fetch(`${API}/customers`);
+    customers = await res.json();
+    const dd = document.getElementById('customerDropdown');
+    dd.innerHTML = customers.map(c =>
+        `<option value="${c.id}" ${c.id === selectedCustomerId ? 'selected' : ''}>${c.name} (¥${c.balance.toFixed(2)})</option>`
+    ).join('');
+    if (!selectedCustomerId && customers.length > 0) {
+        selectedCustomerId = customers[0].id;
+        dd.value = selectedCustomerId;
+    }
+    updateBalanceDisplay();
+}
+
+function selectCustomer(id) {
+    selectedCustomerId = id;
+    localStorage.setItem('customerId', id);
+    updateBalanceDisplay();
+    renderCart();
+}
+
+function updateBalanceDisplay() {
+    const c = customers.find(c => c.id === selectedCustomerId);
+    const el = document.getElementById('customerBalance');
+    if (c) el.textContent = `余额: ¥${c.balance.toFixed(2)}`;
+}
+
+function getCartTotal() {
+    return cart.reduce((s, c) => s + c.price * c.quantity, 0);
+}
 
 // ---- Products ----
 async function fetchProducts() {
@@ -105,7 +140,18 @@ function renderCart() {
         return;
     }
     footer.style.display = 'block';
+    const total = getCartTotal();
     document.getElementById('cartTotal').textContent = `¥${total.toFixed(2)}`;
+
+    // Balance warning
+    const customer = customers.find(c => c.id === selectedCustomerId);
+    const warnEl = document.getElementById('balanceWarn');
+    if (customer && total > customer.balance) {
+        warnEl.classList.remove('hidden');
+        warnEl.textContent = `余额不足 (余额 ¥${customer.balance.toFixed(2)}, 需要 ¥${total.toFixed(2)})`;
+    } else {
+        warnEl.classList.add('hidden');
+    }
 
     container.innerHTML = cart.map(c => `
         <div class="cart-item">
@@ -138,7 +184,7 @@ async function placeOrder() {
 
     try {
         const body = {
-            customerId: null,
+            customerId: selectedCustomerId || null,
             items: cart.map(c => ({ productId: c.productId, quantity: c.quantity }))
         };
         const res = await fetch(`${API}/orders`, {
