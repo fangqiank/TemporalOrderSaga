@@ -100,7 +100,7 @@ dotnet run --project Client
 
 - 购物页面: `http://localhost:5283`
 - Temporal gRPC: `localhost:7233`
-- Temporal UI: http://localhost:8080
+- Temporal UI: `http://localhost:8080`
 
 ## 功能
 
