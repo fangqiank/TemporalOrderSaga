@@ -131,7 +131,6 @@ function renderCart() {
     const empty = document.getElementById('cartEmpty');
     const footer = document.getElementById('cartFooter');
     const badge = document.getElementById('cartBadge');
-    const total = cart.reduce((s, c) => s + c.price * c.quantity, 0);
     badge.textContent = cart.reduce((s, c) => s + c.quantity, 0);
 
     if (cart.length === 0) {

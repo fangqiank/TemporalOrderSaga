@@ -10,3 +10,8 @@ out/
 
 ## NuGet
 *.nupkg
+
+## SQLite
+*.db
+*.db-shm
+*.db-wal
